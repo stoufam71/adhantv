@@ -11,18 +11,18 @@ import kotlin.math.ceil
 import kotlin.math.sqrt
 
 /**
- * Khatam lattice: two squares with the same circumradius, one rotated 45°, tiled across the
- * surface — the eight-point star Afnon's pattern asset (#d8b46a12) draws at full opacity.
- * Callers turn it down to a whisper; see Screensaver and AdhanCard for the alphas in use.
+ * Afnon's "star8" khatam lattice on its 96 grid: a 40×40 square and the same square rotated 45°
+ * (an eight-point star), with short bars joining each star to its neighbours.
  */
 @Composable
-fun IslamicPattern(modifier: Modifier = Modifier, tile: Dp = 96.dp, color: Color = ArchLine) {
+fun IslamicPattern(modifier: Modifier = Modifier, tile: Dp = 96.dp, color: Color = PatternLine) {
   Canvas(modifier) {
     val t = tile.toPx()
     if (t < 8f) return@Canvas
-    val s = t * 0.3f // rotated square's circumradius; the axis square's corners sit on the same circle
-    val d = s / sqrt(2f)
-    val w = 1.dp.toPx()
+    val d = t * 20f / 96f // half the square's side
+    val s = d * sqrt(2f) // the rotated square's corners sit on the same circle
+    val bar = t * 20f / 96f
+    val w = 1.5.dp.toPx()
     val cols = ceil(size.width / t).toInt() + 1
     val rows = ceil(size.height / t).toInt() + 1
     for (i in -1..cols) for (j in -1..rows) {
@@ -38,6 +38,11 @@ fun IslamicPattern(modifier: Modifier = Modifier, tile: Dp = 96.dp, color: Color
       drawLine(color, Offset(cx, cy - s), Offset(cx + s, cy), w)
       drawLine(color, Offset(cx + s, cy), Offset(cx, cy + s), w)
       drawLine(color, Offset(cx, cy + s), Offset(cx - s, cy), w)
+      // bars to the tile edges, so neighbouring stars link into one lattice
+      drawLine(color, Offset(cx - t / 2, cy), Offset(cx - t / 2 + bar, cy), w)
+      drawLine(color, Offset(cx + t / 2 - bar, cy), Offset(cx + t / 2, cy), w)
+      drawLine(color, Offset(cx, cy - t / 2), Offset(cx, cy - t / 2 + bar), w)
+      drawLine(color, Offset(cx, cy + t / 2 - bar), Offset(cx, cy + t / 2), w)
     }
   }
 }

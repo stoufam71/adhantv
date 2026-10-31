@@ -4,21 +4,18 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 
-/** Afnon-like "Mihrab" palette: lapis and gold. */
-val Lapis = Color(0xFF0E2A5C)
-val LapisDeep = Color(0xFF061631)
-val Gold = Color(0xFFD4AF37)
-val Ivory = Color(0xFFF3EBD3)
+/** Afnon's "Mihrab" palette: lapis ground, lapis-800 surfaces, gold lines, plaster text. */
+val LapisDeep = Color(0xFF0A1730) // lapis-950, the ground
+val Lapis = Color(0xFF12264A) // lapis-800, the arch fill and cells
+val Gold = Color(0xFFD8B46A)
+val GoldLight = Color(0xFFF0D79C) // gold-200, the call screen's arch edge
+val Ivory = Color(0xFFEFE7D6) // plaster-100
+val ArchInner = Color(0x73D8B46A) // the arch's inner line, gold at 45%
+val PatternLine = Color(0x24D8B46A) // khatam lattice, gold at 14%: Afnon uses 7%, too faint to read on a TV across the room
 
-/** Screensaver tones from Afnon: warm grey on black, so a dark room is not hit by a white clock. */
-val ScreensaverText = Color(0xFFA69F90)
-val ScreensaverDim = Color(0xFF7D7769)
-val ScreensaverNext = Color(0xFFB8A578)
-val ArchLine = Color(0x59D8B46A) // Afnon's screensaver arch line, gold at 35%
-
-/** Secondary text on lapis; ScreensaverDim fails 4.5:1 on the adhan card's blue. */
+/** Secondary text on lapis (4.5:1 on lapis-800). */
 val Mist = Color(0xFF9FB0CC)
-val LineSoft = Color(0x59F3EBD3)
+val LineSoft = Color(0x40EFE7D6)
 
 /** Afnon sets its display type in Marcellus; the system serif is the closest weight without shipping a font. */
 val Display = FontFamily.Serif

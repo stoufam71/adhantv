@@ -197,7 +197,7 @@ private fun Screen(
   // Afnon's settings look: whisper pattern over the lapis gradient, content in rounded cards
   Box(Modifier.fillMaxSize()) {
     Box(Modifier.fillMaxSize().background(Brush.verticalGradient(listOf(Lapis, LapisDeep))))
-    IslamicPattern(Modifier.fillMaxSize(), color = Gold.copy(alpha = 0.07f))
+    IslamicPattern(Modifier.fillMaxSize())
     Column(Modifier.fillMaxSize().padding(horizontal = 96.dp, vertical = 28.dp)) {
       Text("Adzan TV", color = Gold, fontSize = 20.sp, letterSpacing = 0.3.em)
       Text("Setelan", color = Mist, fontSize = 14.sp, letterSpacing = 0.2.em)

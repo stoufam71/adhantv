@@ -10,21 +10,30 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 /**
- * Afnon's mihrab outline: open at the bottom, drawn on its 440×640 design grid and scaled to the canvas.
- * Size the canvas with the modifier.
+ * Afnon's home-screen mihrab: a filled ogee arch with a gold outline and a second, inset line,
+ * drawn on its 600×900 design grid and scaled to the canvas. The sides stay open at the bottom.
  */
 @Composable
-fun Mihrab(modifier: Modifier = Modifier, color: Color = ArchLine, stroke: Dp = 1.dp) {
+fun Mihrab(
+  modifier: Modifier = Modifier,
+  line: Color = Gold,
+  stroke: Dp = 3.dp,
+  fill: Color = Lapis,
+  inner: Color = ArchInner,
+) {
   Canvas(modifier) {
-    val sx = size.width / 440f
-    val sy = size.height / 640f
-    val path = Path().apply {
-      moveTo(2 * sx, 580 * sy)
-      lineTo(2 * sx, 230 * sy)
-      cubicTo(2 * sx, 120 * sy, 100 * sx, 52 * sy, 220 * sx, 2 * sy)
-      cubicTo(340 * sx, 52 * sy, 438 * sx, 120 * sy, 438 * sx, 230 * sy)
-      lineTo(438 * sx, 580 * sy)
+    val sx = size.width / 600f
+    val sy = size.height / 900f
+    fun arch(inset: Float, top: Float) = Path().apply {
+      moveTo(inset * sx, 900 * sy)
+      lineTo(inset * sx, (330 + inset / 4.5f) * sy)
+      cubicTo(inset * sx, (170 + inset * 0.8f) * sy, (140 + inset * 0.6f) * sx, (70 + inset) * sy, 300 * sx, top * sy)
+      cubicTo((460 - inset * 0.6f) * sx, (70 + inset) * sy, (600 - inset) * sx, (170 + inset * 0.8f) * sy, (600 - inset) * sx, (330 + inset / 4.5f) * sy)
+      lineTo((600 - inset) * sx, 900 * sy)
     }
-    drawPath(path, color, style = Stroke(width = stroke.toPx()))
+    val outer = arch(0f, 0f)
+    drawPath(Path().apply { addPath(outer); close() }, fill)
+    drawPath(outer, line, style = Stroke(width = stroke.toPx()))
+    drawPath(arch(18f, 22f), inner, style = Stroke(width = 1.5.dp.toPx()))
   }
 }
