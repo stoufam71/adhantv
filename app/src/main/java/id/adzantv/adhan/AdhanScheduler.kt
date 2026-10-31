@@ -26,13 +26,14 @@ class AdhanScheduler(private val setAlarm: (atMillis: Long, prayer: Prayer) -> U
 
     fun forDevice(ctx: Context) = AdhanScheduler { at, prayer -> set(ctx, at, prayer) }
 
-    fun set(ctx: Context, at: Long, prayer: Prayer) {
+    /** [slot] 0 is the real chain; the settings test uses 1 so a reschedule never cancels it. */
+    fun set(ctx: Context, at: Long, prayer: Prayer, slot: Int = 0) {
       val am = ctx.getSystemService(AlarmManager::class.java)
       val intent = Intent(ctx, AlarmReceiver::class.java)
         .putExtra(EXTRA_PRAYER, prayer.name)
         .putExtra(EXTRA_AT, at)
-      // one request code, so a new alarm always replaces the previous one
-      val pi = PendingIntent.getBroadcast(ctx, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+      // one request code per slot, so a new alarm always replaces the previous one
+      val pi = PendingIntent.getBroadcast(ctx, slot, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
       if (Build.VERSION.SDK_INT >= 31 && !am.canScheduleExactAlarms()) {
         am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, at, pi)
       } else {

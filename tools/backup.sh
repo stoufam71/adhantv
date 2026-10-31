@@ -4,6 +4,11 @@
 source "$(dirname "$0")/lib.sh"
 set_device "${1:-}"
 
+# a snapshot taken after install would make restore put Adzan TV's settings back
+if dev shell pm list packages </dev/null | tr -d '\r' | grep -qx "package:$PKG"; then
+  die "$PKG is already installed; keep the existing pre-install snapshot (to update, just rerun tools/install.sh)"
+fi
+
 OUT="backups/$SERIAL/$(date +%Y%m%d-%H%M%S)"
 mkdir -p "$OUT"
 

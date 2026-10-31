@@ -18,6 +18,7 @@ class LocationResolver(
 ) {
   /** The newly stored city, or null when nothing changed (the caller opens the picker if no city is stored). */
   fun detect(force: Boolean = false): City? {
+    val before = store.cityId to store.manual
     val ip = runCatching { JSONObject(http("https://ipwho.is/")) }.getOrNull() ?: return null
     if (!ip.optBoolean("success")) return null
     // the offline calculator uses these even after a manual pick
@@ -26,6 +27,8 @@ class LocationResolver(
     if (store.manual && !force) return null
     if (ip.optString("country_code") != "ID") return null
     val city = CityMatcher.match(ip.optString("city"), cities()) ?: return null
+    // a pick made while the lookup was in flight wins
+    if (store.cityId to store.manual != before) return null
     store.cityId = city.id
     store.cityName = city.name
     store.manual = false

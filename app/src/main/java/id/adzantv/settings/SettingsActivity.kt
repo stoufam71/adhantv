@@ -146,8 +146,7 @@ class SettingsActivity : ComponentActivity() {
     work {
       val now = ZonedDateTime.now()
       val next = PrayerClock.next(Adzan.day(this, now.toLocalDate()), Adzan.day(this, now.toLocalDate().plusDays(1)), now)
-      // replaces the real alarm; the receiver re-arms the real next prayer after it fires
-      AdhanScheduler.set(this, System.currentTimeMillis() + 60_000, next.prayer)
+      AdhanScheduler.set(this, System.currentTimeMillis() + 60_000, next.prayer, slot = 1)
       runOnUiThread { message.value = "Adzan tes akan berbunyi dalam 1 menit" }
     }
   }

@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
+import android.os.PowerManager
 import android.util.Log
 import id.adzantv.Adzan
 import id.adzantv.dream.AdzanDreamService
@@ -17,7 +18,9 @@ class AlarmReceiver : BroadcastReceiver() {
     val pending = goAsync()
     thread {
       try {
-        if (prayer != null && AdhanScheduler.shouldPlay(at, System.currentTimeMillis())) {
+        // a TV in standby stays off (screensaver still counts as interactive)
+        val screenOn = ctx.getSystemService(PowerManager::class.java).isInteractive
+        if (prayer != null && screenOn && AdhanScheduler.shouldPlay(at, System.currentTimeMillis())) {
           // end our screensaver so the card is not hidden behind it
           Handler(Looper.getMainLooper()).post { AdzanDreamService.current?.finish() }
           // card first so it is on time; a failed start must not break the alarm chain below

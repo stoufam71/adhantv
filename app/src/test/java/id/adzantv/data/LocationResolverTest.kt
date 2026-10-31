@@ -63,4 +63,16 @@ class LocationResolverTest {
     assertNull(resolver(store, null).detect())
     assertEquals("1301", store.cityId)
   }
+
+  @Test fun manualPickDuringForcedDetectWins() {
+    val store = MemoryStore()
+    // the user picks a city while the IP lookup is still in flight
+    val r = LocationResolver(store, {
+      store.cityId = "1222"; store.cityName = "KOTA BOGOR"; store.manual = true
+      ip("Jakarta")
+    }, { cities })
+    assertNull(r.detect(force = true))
+    assertEquals("1222", store.cityId)
+    assertTrue(store.manual)
+  }
 }
