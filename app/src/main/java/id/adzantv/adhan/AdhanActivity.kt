@@ -5,9 +5,12 @@ import android.view.KeyEvent
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.CompositionLocalProvider
 import id.adzantv.data.Prefs
 import id.adzantv.time.Prayer
 import id.adzantv.ui.AdhanCard
+import id.adzantv.ui.LocalPalette
+import id.adzantv.ui.paletteOf
 import java.time.Instant
 import java.time.ZoneId
 
@@ -22,7 +25,12 @@ class AdhanActivity : ComponentActivity() {
     val prayer = intent.getStringExtra(AdhanScheduler.EXTRA_PRAYER)?.let { runCatching { Prayer.valueOf(it) }.getOrNull() }
     val at = Instant.ofEpochMilli(intent.getLongExtra(AdhanScheduler.EXTRA_AT, System.currentTimeMillis()))
       .atZone(ZoneId.systemDefault()).toLocalTime()
-    setContent { AdhanCard(prayer?.label ?: "Adzan", at, Prefs(this).cityName) }
+    val prefs = Prefs(this)
+    setContent {
+      CompositionLocalProvider(LocalPalette provides paletteOf(prefs.palette)) {
+        AdhanCard(prayer?.label ?: "Adzan", at, prefs.cityName, progress = player::progress)
+      }
+    }
     player.start()
   }
 

@@ -28,6 +28,11 @@ echo "appops set $PKG SYSTEM_ALERT_WINDOW allow"
 dev shell appops set "$PKG" SYSTEM_ALERT_WINDOW allow
 dev shell appops get "$PKG" SYSTEM_ALERT_WINDOW | grep -q allow || die "SYSTEM_ALERT_WINDOW grant did not stick"
 
+# the app's screensaver on/off switch writes screensaver_components; uninstall (restore.sh) revokes it
+echo "pm grant $PKG WRITE_SECURE_SETTINGS"
+dev shell pm grant "$PKG" android.permission.WRITE_SECURE_SETTINGS
+dev shell dumpsys package "$PKG" | grep -q "WRITE_SECURE_SETTINGS: granted=true" || die "WRITE_SECURE_SETTINGS grant did not stick"
+
 # a fresh install stays "stopped" (no BOOT_COMPLETED) until launched once;
 # first launch also detects the city and arms the first adhan alarm
 dev shell am start -n "$PKG/.settings.SettingsActivity" >/dev/null

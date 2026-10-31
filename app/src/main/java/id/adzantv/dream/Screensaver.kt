@@ -25,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -35,10 +36,14 @@ import androidx.compose.ui.unit.sp
 import id.adzantv.time.Prayer
 import id.adzantv.time.PrayerClock
 import id.adzantv.time.PrayerTimes
+import id.adzantv.ui.ArchInner
 import id.adzantv.ui.Display
 import id.adzantv.ui.Gold
+import id.adzantv.ui.GoldLight
+import id.adzantv.ui.GoldLine
+import id.adzantv.ui.SurfacePast
 import id.adzantv.ui.Ivory
-import id.adzantv.ui.Lapis
+import id.adzantv.ui.Surface
 import id.adzantv.ui.Mihrab
 import id.adzantv.ui.Mist
 import id.adzantv.ui.Stage
@@ -52,8 +57,6 @@ import kotlin.math.sin
 
 data class ScreensaverData(val city: String?, val today: PrayerTimes, val tomorrow: PrayerTimes)
 
-/** Lapis-800 at 60% over the ground, solid so the lattice does not show through a faded cell. */
-private val LapisPast = Color(0xFF0F2040)
 private val ID = Locale.forLanguageTag("id-ID")
 private val TIME = DateTimeFormatter.ofPattern("HH:mm")
 private val NUM = TextStyle(fontFeatureSettings = "tnum") // digits keep their width, so the clock does not jitter
@@ -76,21 +79,33 @@ fun Screensaver(data: ScreensaverData?) {
   }
   // slow drift against burn-in: a new spot every minute, inside the 96dp safe margin
   val minute = now.toEpochSecond() / 60
-  Stage(dx = (sin(minute * 1.3) * 40).dp, dy = (sin(minute * 0.7) * 24).dp) {
-    // taller than Afnon's 900 so the arch runs off the bottom even at the top of the drift
-    Mihrab(Modifier.offset(96.dp, 120.dp).size(600.dp, 1000.dp))
-    Column(
-      Modifier.offset(136.dp, 250.dp).width(520.dp),
-      horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
+  // the ornament quiets behind the clock and the prayer cells
+  Stage(dx = (sin(minute * 1.3) * 40).dp, dy = (sin(minute * 0.7) * 24).dp, quiet = Offset(1330f, 560f)) {
+    // Afnon's "approaching" arch: a brighter, thicker edge in the last 10 minutes, readable from across the room
+    val near = data?.city != null && Duration.between(now, PrayerClock.next(data.today, data.tomorrow, now).at).toMinutes() < 10
+    val edge = if (near) GoldLight else GoldLine
+    // a whole niche like the call screen: 680 wide, cut at grid height 768 so it ends at 960,
+    // leaving room for the base lines and the drift
+    Mihrab(
+      Modifier.offset(96.dp, 90.dp).size(680.dp, 870.dp),
+      line = edge,
+      stroke = if (near) 6.dp else 3.dp,
+      floor = 870f * 600f / 680f,
+    )
+    Box(Modifier.offset(56.dp, 958.dp).size(760.dp, 4.dp).background(edge))
+    Box(Modifier.offset(80.dp, 974.dp).size(712.dp, 2.dp).background(ArchInner))
+    // content centred in the arch body, nudged below the narrow crown
+    Box(Modifier.offset(96.dp, 90.dp).size(680.dp, 870.dp).padding(top = 70.dp), contentAlignment = Alignment.Center) {
+    Column(Modifier.width(560.dp), horizontalAlignment = Alignment.CenterHorizontally) {
       Text(VERSE, color = Gold, fontSize = 34.sp, lineHeight = 1.5.em, fontFamily = Display, textAlign = TextAlign.Center)
       Text("QS An-Nisa: 103", color = Mist, fontSize = 20.sp, modifier = Modifier.padding(top = 8.dp))
-      Box(Modifier.padding(vertical = 28.dp).width(120.dp).height(2.dp).background(Gold.copy(alpha = 0.6f)))
+      Box(Modifier.padding(vertical = 28.dp).width(120.dp).height(2.dp).background(GoldLine))
       when {
         data == null -> {}
         data.city == null -> Text("Atur kota di aplikasi Adzan TV", color = Gold, fontSize = 30.sp, textAlign = TextAlign.Center)
         else -> Next(data, now)
       }
+    }
     }
     Courtyard(data, now)
   }
@@ -116,7 +131,7 @@ private fun Next(data: ScreensaverData, now: ZonedDateTime) {
 
 @Composable
 private fun Courtyard(data: ScreensaverData?, now: ZonedDateTime) {
-  Column(Modifier.offset(760.dp, 250.dp).width(1064.dp)) {
+  Column(Modifier.offset(840.dp, 310.dp).width(984.dp)) {
     Text(now.format(TIME), color = Ivory, fontSize = 168.sp, fontFamily = Display, lineHeight = 1.em, style = NUM)
     Text(
       hijri() + (data?.city?.let { "  ·  $it" } ?: ""),
@@ -156,8 +171,8 @@ private fun Cells(data: ScreensaverData, now: ZonedDateTime) {
           .then(
             when {
               isNext -> Modifier.border(3.dp, Gold, shape)
-              past -> Modifier.background(LapisPast, shape)
-              else -> Modifier.background(Lapis, shape)
+              past -> Modifier.background(SurfacePast, shape)
+              else -> Modifier.background(Surface, shape)
             },
           )
           .padding(horizontal = 20.dp, vertical = 16.dp),

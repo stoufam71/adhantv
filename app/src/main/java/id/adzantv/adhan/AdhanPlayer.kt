@@ -40,6 +40,9 @@ class AdhanPlayer(private val ctx: Context, private val onDone: () -> Unit) {
     p.start()
   }
 
+  /** Milliseconds played and total, for the card's progress line; null without sound. Main thread. */
+  fun progress(): Pair<Int, Int>? = player?.let { p -> runCatching { p.currentPosition to p.duration }.getOrNull() }
+
   fun stop() {
     handler.removeCallbacksAndMessages(null)
     player?.release()

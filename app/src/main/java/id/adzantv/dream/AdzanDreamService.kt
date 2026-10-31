@@ -4,6 +4,7 @@ import android.os.Handler
 import android.os.Looper
 import android.service.dreams.DreamService
 import android.util.Log
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.platform.ComposeView
 import androidx.lifecycle.Lifecycle
@@ -19,6 +20,8 @@ import id.adzantv.data.Prefs
 import id.adzantv.adhan.AdhanPlayer
 import id.adzantv.time.Prayer
 import id.adzantv.ui.AdhanCard
+import id.adzantv.ui.LocalPalette
+import id.adzantv.ui.paletteOf
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalTime
@@ -50,9 +53,12 @@ class AdzanDreamService : DreamService(), LifecycleOwner, SavedStateRegistryOwne
     window.decorView.setViewTreeSavedStateRegistryOwner(this)
     setContentView(
       ComposeView(this).apply {
+        val palette = paletteOf(Prefs(this@AdzanDreamService).palette)
         setContent {
-          val call = adhan.value
-          if (call != null) AdhanCard(call.first, call.second, data.value?.city) else Screensaver(data.value)
+          CompositionLocalProvider(LocalPalette provides palette) {
+            val call = adhan.value
+            if (call != null) AdhanCard(call.first, call.second, data.value?.city, progress = { player?.progress() }) else Screensaver(data.value)
+          }
         }
       },
     )
