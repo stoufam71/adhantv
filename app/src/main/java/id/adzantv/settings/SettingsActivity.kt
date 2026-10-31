@@ -168,6 +168,9 @@ private fun Screen(
 ) {
   var query by remember { mutableStateOf("") }
   val searchFocus = remember { FocusRequester() }
+  // start on the buttons; landing on the search field would pop the keyboard every launch
+  val buttonFocus = remember { FocusRequester() }
+  LaunchedEffect(Unit) { buttonFocus.requestFocus() }
   LaunchedEffect(focusSearch, cities) { if (focusSearch && !cities.isNullOrEmpty()) searchFocus.requestFocus() }
 
   Column(Modifier.fillMaxSize().background(LapisDeep).padding(horizontal = 48.dp, vertical = 27.dp)) {
@@ -183,7 +186,7 @@ private fun Screen(
     }
     Spacer(Modifier.height(12.dp))
     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-      TvButton(if (busy) "Memproses…" else "Deteksi ulang", onRedetect)
+      TvButton(if (busy) "Memproses…" else "Deteksi ulang", onRedetect, Modifier.focusRequester(buttonFocus))
       TvButton("Tes adzan (1 menit)", onTest)
     }
     if (message != null) Text(message, color = Gold, fontSize = 18.sp, modifier = Modifier.padding(top = 8.dp))
@@ -215,13 +218,13 @@ private fun Screen(
 }
 
 @Composable
-private fun TvButton(label: String, onClick: () -> Unit) {
+private fun TvButton(label: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
   var focused by remember { mutableStateOf(false) }
   Text(
     label,
     color = if (focused) LapisDeep else Ivory,
     fontSize = 20.sp,
-    modifier = Modifier
+    modifier = modifier
       .onFocusChanged { focused = it.isFocused }
       .background(if (focused) Gold else Lapis, RoundedCornerShape(8.dp))
       .clickable(onClick = onClick)
