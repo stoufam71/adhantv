@@ -63,7 +63,9 @@ class SettingsActivity : ComponentActivity() {
   private val busy = mutableStateOf(false)
   private val focusSearch = mutableStateOf(false)
 
-  private val resolver by lazy { LocationResolver(prefs, cities = { cities.value.orEmpty() }) }
+  // worker-thread copy: cities.value is only updated later on the UI thread
+  @Volatile private var loaded: List<City> = emptyList()
+  private val resolver by lazy { LocationResolver(prefs, cities = { loaded }) }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -100,6 +102,7 @@ class SettingsActivity : ComponentActivity() {
     cities.value = null
     work {
       val list = loadCities(filesDir, MyQuranClient())
+      loaded = list
       runOnUiThread { cities.value = list }
       if (prefs.cityId == null) detect(force = false) else refresh()
     }

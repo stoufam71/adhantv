@@ -12,6 +12,8 @@ val httpGet: Http = { url ->
   try {
     conn.connectTimeout = 10_000
     conn.readTimeout = 10_000
+    // ipwho.is answers 403 to Android's default "Dalvik/…" user agent
+    conn.setRequestProperty("User-Agent", "AdzanTV/1.0")
     if (conn.responseCode != 200) throw IOException("HTTP ${conn.responseCode} for $url")
     conn.inputStream.bufferedReader().use { it.readText() }
   } finally {

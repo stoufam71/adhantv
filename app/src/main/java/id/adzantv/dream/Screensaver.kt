@@ -1,7 +1,6 @@
 package id.adzantv.dream
 
 import android.icu.text.SimpleDateFormat
-import android.icu.util.IslamicCalendar
 import android.icu.util.ULocale
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -122,7 +121,7 @@ private fun Times(data: ScreensaverData, now: ZonedDateTime) {
 
 /** Tabular (civil) Hijri date; may differ by a day from Indonesian moon sighting. */
 private fun hijri(): String {
-  val fmt = SimpleDateFormat("d MMMM y 'H'", ULocale("id_ID"))
-  fmt.calendar = IslamicCalendar().apply { calculationType = IslamicCalendar.CalculationType.ISLAMIC_CIVIL }
+  // the calendar keyword makes ICU use Islamic month names; a plain id_ID locale prints Gregorian ones
+  val fmt = SimpleDateFormat("d MMMM y 'H'", ULocale("id_ID@calendar=islamic-civil"))
   return fmt.format(Date())
 }
