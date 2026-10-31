@@ -3,8 +3,11 @@ package id.adzantv.adhan
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import id.adzantv.Adzan
+import id.adzantv.dream.AdzanDreamService
 import kotlin.concurrent.thread
 
 class AlarmReceiver : BroadcastReceiver() {
@@ -15,6 +18,8 @@ class AlarmReceiver : BroadcastReceiver() {
     thread {
       try {
         if (prayer != null && AdhanScheduler.shouldPlay(at, System.currentTimeMillis())) {
+          // end our screensaver so the card is not hidden behind it
+          Handler(Looper.getMainLooper()).post { AdzanDreamService.current?.finish() }
           // card first so it is on time; a failed start must not break the alarm chain below
           runCatching {
             ctx.startActivity(
