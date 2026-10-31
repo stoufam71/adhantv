@@ -20,18 +20,26 @@ class AlarmReceiver : BroadcastReceiver() {
       try {
         // a TV in standby stays off (screensaver still counts as interactive)
         val screenOn = ctx.getSystemService(PowerManager::class.java).isInteractive
+        Log.i("AdzanTV", "alarm prayer=$prayer lateMs=${System.currentTimeMillis() - at} screenOn=$screenOn")
         if (prayer != null && screenOn && AdhanScheduler.shouldPlay(at, System.currentTimeMillis())) {
-          // end our screensaver so the card is not hidden behind it
-          Handler(Looper.getMainLooper()).post { AdzanDreamService.current?.finish() }
           // card first so it is on time; a failed start must not break the alarm chain below
-          runCatching {
-            ctx.startActivity(
-              Intent(ctx, AdhanActivity::class.java)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                .putExtra(AdhanScheduler.EXTRA_PRAYER, prayer)
-                .putExtra(AdhanScheduler.EXTRA_AT, at),
-            )
-          }.onFailure { Log.e("AdzanTV", "adhan card start failed", it) }
+          Handler(Looper.getMainLooper()).post {
+            val dream = AdzanDreamService.current
+            // ending a screensaver with no user input sends Google TV to sleep, killing any card;
+            // so our own screensaver shows the call itself
+            if (dream != null) {
+              dream.showAdhan(prayer, at)
+            } else {
+              runCatching {
+                ctx.startActivity(
+                  Intent(ctx, AdhanActivity::class.java)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    .putExtra(AdhanScheduler.EXTRA_PRAYER, prayer)
+                    .putExtra(AdhanScheduler.EXTRA_AT, at),
+                )
+              }.onFailure { Log.e("AdzanTV", "adhan card start failed", it) }
+            }
+          }
         }
         Adzan.reschedule(ctx)
       } catch (e: Exception) {

@@ -16,7 +16,13 @@ import androidx.savedstate.SavedStateRegistryOwner
 import androidx.savedstate.setViewTreeSavedStateRegistryOwner
 import id.adzantv.Adzan
 import id.adzantv.data.Prefs
+import id.adzantv.adhan.AdhanPlayer
+import id.adzantv.time.Prayer
+import id.adzantv.ui.AdhanCard
+import java.time.Instant
 import java.time.LocalDate
+import java.time.LocalTime
+import java.time.ZoneId
 import kotlin.concurrent.thread
 
 /** The system screensaver. A DreamService is not a LifecycleOwner, so Compose's owners are wired by hand. */
@@ -27,6 +33,8 @@ class AdzanDreamService : DreamService(), LifecycleOwner, SavedStateRegistryOwne
   override val savedStateRegistry: SavedStateRegistry get() = savedState.savedStateRegistry
 
   private val data = mutableStateOf<ScreensaverData?>(null)
+  private val adhan = mutableStateOf<Pair<String, LocalTime>?>(null) // prayer label, time
+  private var player: AdhanPlayer? = null
 
   override fun onCreate() {
     super.onCreate()
@@ -40,7 +48,14 @@ class AdzanDreamService : DreamService(), LifecycleOwner, SavedStateRegistryOwne
     isFullscreen = true
     window.decorView.setViewTreeLifecycleOwner(this)
     window.decorView.setViewTreeSavedStateRegistryOwner(this)
-    setContentView(ComposeView(this).apply { setContent { Screensaver(data.value) } })
+    setContentView(
+      ComposeView(this).apply {
+        setContent {
+          val call = adhan.value
+          if (call != null) AdhanCard(call.first, call.second, data.value?.city) else Screensaver(data.value)
+        }
+      },
+    )
   }
 
   override fun onDreamingStarted() {
@@ -71,7 +86,22 @@ class AdzanDreamService : DreamService(), LifecycleOwner, SavedStateRegistryOwne
     }
   }
 
+  /** Main thread. The call plays inside the screensaver; any key ends both (R4). */
+  fun showAdhan(prayerName: String, atMillis: Long) {
+    val label = runCatching { Prayer.valueOf(prayerName).label }.getOrDefault("Adzan")
+    adhan.value = label to Instant.ofEpochMilli(atMillis).atZone(ZoneId.systemDefault()).toLocalTime()
+    player?.stop()
+    player = AdhanPlayer(this) { endAdhan() }.also { it.start() }
+  }
+
+  private fun endAdhan() {
+    player?.stop()
+    player = null
+    adhan.value = null
+  }
+
   override fun onDreamingStopped() {
+    endAdhan()
     if (current === this) current = null
     registry.currentState = Lifecycle.State.CREATED
     super.onDreamingStopped()
@@ -84,7 +114,7 @@ class AdzanDreamService : DreamService(), LifecycleOwner, SavedStateRegistryOwne
   }
 
   companion object {
-    /** The running screensaver, so the adhan can end it before showing its card. Main thread only. */
+    /** The running screensaver, so the adhan plays inside it instead of ending it. Main thread only. */
     @Volatile var current: AdzanDreamService? = null
   }
 }
