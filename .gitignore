@@ -1,0 +1,10 @@
+*.iml
+.gradle
+local.properties
+.idea/
+.DS_Store
+build/
+captures/
+.kotlin/
+# device snapshots are per-household, never committed
+backups/
