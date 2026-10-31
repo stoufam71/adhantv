@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adzan TV ornaments</title>
+<style>
+  :root { --page: #1b1b1b; --ink: #e8e8e8; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 24px 16px 48px; background: var(--page); color: var(--ink); font-family: system-ui, sans-serif; }
+  h1 { font-size: 20px; font-weight: 600; margin: 0 0 4px; }
+  p.lede { margin: 0 0 24px; color: #aaa; font-size: 14px; max-width: 70ch; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 620px), 1fr)); gap: 28px; }
+  figure { margin: 0; }
+  .detail { display: block; width: 100%; height: 200px; margin-top: 8px; border-radius: 6px; background: #0B0A08; }
+  figcaption { margin: 10px 0 0; font-size: 14px; color: #bbb; }
+  figcaption b { display: block; font-size: 16px; color: var(--ink); margin-bottom: 2px; }
+  .tv { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 6px; container-type: inline-size; }
+  .stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; transform: scale(calc(100cqw / 1920px)); background: #0B0A08; font-family: "Noto Serif", Georgia, serif; }
+  .stage svg { position: absolute; overflow: visible; }
+  .arch-col { position: absolute; left: 136px; top: 250px; width: 520px; text-align: center; }
+  .verse { color: #D9B76A; font-size: 34px; line-height: 1.5; direction: rtl; font-family: "Amiri", "Noto Naskh Arabic", serif; }
+  .ref { color: #8C8370; font: 20px system-ui, sans-serif; margin-top: 8px; }
+  .rule { width: 120px; height: 2px; background: #B8964F; margin: 28px auto; }
+  .lbl { color: #8C8370; font: 22px system-ui, sans-serif; letter-spacing: .12em; }
+  .name { color: #D9B76A; font-size: 88px; font-weight: 700; line-height: 1.1; }
+  .count { color: #D8CDB4; font-size: 110px; line-height: 1; font-variant-numeric: tabular-nums; }
+  .sub { color: #8C8370; font: 26px system-ui, sans-serif; margin-top: 12px; }
+  .court { position: absolute; left: 760px; top: 250px; width: 1064px; }
+  .clock { color: #D8CDB4; font-size: 168px; line-height: 1; font-variant-numeric: tabular-nums; }
+  .hd { color: #D8CDB4; font: 30px system-ui, sans-serif; margin-top: 16px; }
+  .gd { color: #8C8370; font: 26px system-ui, sans-serif; margin-top: 8px; }
+  .cells { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-top: 80px; font-family: system-ui, sans-serif; }
+  .cell { height: 156px; border-radius: 14px; background: #17140F; padding: 16px 20px; display: flex; flex-direction: column; color: #D8CDB4; }
+  .cell .t { flex: 1; font-size: 18px; letter-spacing: .12em; color: #D9B76A; }
+  .cell .n { font-size: 26px; }
+  .cell .v { font-size: 38px; font-variant-numeric: tabular-nums; }
+  .cell.next { background: #0B0A08; box-shadow: inset 0 0 0 3px #D9B76A; color: #D9B76A; font-weight: 600; }
+</style>
+</head>
+<body>
+<h1>Adzan TV: background ornaments</h1>
+<p class="lede">The Kiswah screensaver with each candidate ornament behind it. A is what the TV shows now. B, C and D are traditional geometric patterns built the way craftsmen draw them (Hankin's "polygons in contact" method on a real tiling), and they fade out behind the clock and prayer times so the text stays clean. E keeps the wallpaper quiet and puts the ornament in a frieze band instead.</p>
+<div class="grid" id="grid"></div>
+
+<template id="screen">
+  <div class="tv"><div class="stage">
+    <svg class="orn" width="1920" height="1080" aria-hidden="true"></svg>
+    <svg style="left:96px;top:120px" width="600" height="1000" viewBox="0 0 600 900" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 900 L0 330 C0 170 140 70 300 0 C460 70 600 170 600 330 L600 900 Z" fill="#17140F" stroke="#B8964F" stroke-width="3" vector-effect="non-scaling-stroke"/>
+      <path d="M18 900 L18 334 C18 184 150 92 300 22 C450 92 582 184 582 334 L582 900" fill="none" stroke="#B8964F" stroke-opacity=".55" stroke-width="1.5" vector-effect="non-scaling-stroke"/>
+    </svg>
+    <div class="arch-col">
+      <div class="verse">إِنَّ الصَّلَاةَ كَانَتْ<br>عَلَى الْمُؤْمِنِينَ<br>كِتَابًا مَّوْقُوتًا</div>
+      <div class="ref">QS An-Nisa: 103</div>
+      <div class="rule"></div>
+      <div class="lbl">SHALAT BERIKUTNYA</div>
+      <div class="name">Subuh</div>
+      <div class="count">5:08:22</div>
+      <div class="sub">Adzan pukul 04:09</div>
+    </div>
+    <div class="court">
+      <div class="clock">23:00</div>
+      <div class="hd">19 Jumadilawal 1448 H · KOTA JAKARTA</div>
+      <div class="gd">Sabtu, 31 Oktober 2026</div>
+      <div class="cells">
+        <div class="cell next"><span class="t">BERIKUT</span><span class="n">Subuh</span><span class="v">04:09</span></div>
+        <div class="cell"><span class="t"></span><span class="n">Terbit</span><span class="v">05:23</span></div>
+        <div class="cell"><span class="t"></span><span class="n">Dzuhur</span><span class="v">11:40</span></div>
+        <div class="cell"><span class="t"></span><span class="n">Ashar</span><span class="v">14:55</span></div>
+        <div class="cell"><span class="t"></span><span class="n">Maghrib</span><span class="v">17:49</span></div>
+        <div class="cell"><span class="t"></span><span class="n">Isya</span><span class="v">19:00</span></div>
+      </div>
+    </div>
+  </div></div>
+</template>
+
+<script>
+  const W = 1920, H = 1080, GOLD = "#B8964F";
+
+  // ---- geometry helpers -------------------------------------------------
+  const sub = (a, b) => [a[0] - b[0], a[1] - b[1]];
+  const add = (a, b) => [a[0] + b[0], a[1] + b[1]];
+  const mul = (a, k) => [a[0] * k, a[1] * k];
+  const norm = (a) => { const l = Math.hypot(a[0], a[1]); return [a[0] / l, a[1] / l]; };
+  function intersect(p, d, q, e) { // p + t d = q + u e
+    const den = d[0] * e[1] - d[1] * e[0];
+    if (Math.abs(den) < 1e-9) return null;
+    const t = ((q[0] - p[0]) * e[1] - (q[1] - p[1]) * e[0]) / den;
+    return add(p, mul(d, t));
+  }
+  const poly = (cx, cy, n, R, rot) => Array.from({ length: n }, (_, i) => {
+    const a = rot + (i * 2 * Math.PI) / n;
+    return [cx + R * Math.cos(a), cy + R * Math.sin(a)];
+  });
+
+  /** Hankin's method: from each edge midpoint, two rays at angle θ to the edge; neighbouring rays meet. */
+  function hankin(vs, theta) {
+    const n = vs.length, segs = [];
+    const c = vs.reduce((s, v) => add(s, mul(v, 1 / n)), [0, 0]);
+    const rays = vs.map((v, i) => {
+      const w = vs[(i + 1) % n], m = mul(add(v, w), 0.5), d = norm(sub(w, v));
+      let nrm = [-d[1], d[0]];
+      if ((c[0] - m[0]) * nrm[0] + (c[1] - m[1]) * nrm[1] < 0) nrm = mul(nrm, -1);
+      const fwd = add(mul(d, Math.cos(theta)), mul(nrm, Math.sin(theta)));
+      const back = add(mul(d, -Math.cos(theta)), mul(nrm, Math.sin(theta)));
+      return { m, fwd, back };
+    });
+    for (let i = 0; i < n; i++) {
+      const a = rays[i], b = rays[(i + 1) % n];
+      const x = intersect(a.m, a.fwd, b.m, b.back);
+      if (x) segs.push([a.m, x], [x, b.m]);
+    }
+    return segs;
+  }
+  const segPath = (segs) => segs.map(([a, b]) => `M${a[0].toFixed(1)} ${a[1].toFixed(1)}L${b[0].toFixed(1)} ${b[1].toFixed(1)}`).join("");
+
+  /** 4.8.8 tiling (octagons + squares), period P. */
+  function tiling488(P, theta) {
+    const a = P / (1 + Math.SQRT2), R = a / (2 * Math.sin(Math.PI / 8)), segs = [];
+    for (let x = -P; x <= W + P; x += P) for (let y = -P; y <= H + P; y += P) {
+      segs.push(...hankin(poly(x, y, 8, R, Math.PI / 8), theta));
+      segs.push(...hankin(poly(x + P / 2, y + P / 2, 4, a / Math.SQRT2, 0), theta));
+    }
+    return segPath(segs);
+  }
+
+  // ---- ornaments ---------------------------------------------------------
+  const current = () => {
+    let d = "";
+    for (let x = 0; x < W + 96; x += 96) for (let y = 0; y < H + 96; y += 96) {
+      const cx = x + 48, cy = y + 48;
+      d += `M${cx - 20} ${cy - 20}h40v40h-40z`;
+      const s = 20 * Math.SQRT2;
+      d += `M${cx - s} ${cy}L${cx} ${cy - s}L${cx + s} ${cy}L${cx} ${cy + s}z`;
+      d += `M${x} ${cy}h20M${x + 76} ${cy}h20M${cx} ${y}v20M${cx} ${y + 76}v20`;
+    }
+    return d;
+  };
+  const circles = (P) => { // overlapping circles: the grid every Islamic pattern is laid out on
+    let d = "";
+    const r = P / Math.SQRT2;
+    for (let x = 0; x <= W + P; x += P) for (let y = 0; y <= H + P; y += P)
+      d += `M${x + r} ${y}A${r} ${r} 0 1 0 ${x - r} ${y}A${r} ${r} 0 1 0 ${x + r} ${y}`;
+    return d;
+  };
+
+  const options = [
+    { name: "A · Now", note: "Squares and bars on a square grid. Reads as a circuit board, not a tile.", d: current(), width: 1.5, opacity: 0.10, fade: false },
+    { name: "B · Khatam rosette (8-fold strapwork)", note: "Eight-point stars and kites drawn as a double-line strap, as carved on Persian and Mamluk doors and ceilings. Recommended.", d: tiling488(220, (67.5 * Math.PI) / 180), width: 2, opacity: 0.2, fade: true, strap: 8 },
+    { name: "C · Star and cross", note: "Eight-point stars with crosses between them: the classic Iznik and Moroccan tile floor. Quieter.", d: tiling488(200, (45 * Math.PI) / 180), width: 2, opacity: 0.15, fade: true },
+    { name: "D · Overlapping circles", note: "The compass grid craftsmen draw every pattern on. Soft and curved; least busy.", d: circles(160), width: 1.5, opacity: 0.14, fade: true },
+    { name: "E · Frieze band only", note: "Plain ground; the rosette strapwork appears only in a band at the top and bottom, like a mosque wall frieze.", d: tiling488(160, (67.5 * Math.PI) / 180), width: 2, opacity: 0.25, fade: false, band: true, strap: 7 },
+  ];
+
+  const grid = document.getElementById("grid");
+  const tpl = document.getElementById("screen");
+  options.forEach((o, i) => {
+    const tv = tpl.content.cloneNode(true);
+    const svg = tv.querySelector("svg.orn");
+    // fade behind the clock and the cells; the arch covers its own area
+    const mask = o.fade
+      ? `<defs><radialGradient id="g${i}" cx="68%" cy="48%" r="45%"><stop offset="0" stop-color="#fff" stop-opacity=".25"/><stop offset="1" stop-color="#fff" stop-opacity="1"/></radialGradient><mask id="m${i}"><rect width="${W}" height="${H}" fill="url(#g${i})"/></mask></defs>`
+      : o.band
+        ? `<defs><mask id="m${i}"><rect width="${W}" height="${H}" fill="#000"/><rect width="${W}" height="150" fill="#fff"/><rect y="${H - 150}" width="${W}" height="150" fill="#fff"/></mask></defs><path d="M0 150H${W}M0 ${H - 150}H${W}" stroke="${GOLD}" stroke-opacity=".5" stroke-width="2"/>`
+        : "";
+    const m = mask ? `mask="url(#m${i})"` : "";
+    const line = (stroke, w) => `<path d="${o.d}" fill="none" stroke="${stroke}" stroke-width="${w}" stroke-linejoin="round"/>`;
+    svg.innerHTML = mask + (o.strap
+      ? `<g ${m} opacity="${o.opacity}">${line(GOLD, o.strap)}${line("#0B0A08", o.strap - 2 * o.width)}</g>`
+      : `<g ${m} opacity="${o.opacity}">${line(GOLD, o.width)}</g>`);
+    const fig = document.createElement("figure");
+    fig.appendChild(tv);
+    // close-up at the ornament's true scale, stronger, so the geometry can be judged
+    const det = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    det.setAttribute("class", "detail");
+    det.setAttribute("viewBox", "200 300 1100 200");
+    det.setAttribute("preserveAspectRatio", "xMidYMid slice");
+    det.setAttribute("aria-hidden", "true");
+    const dl = (stroke, w) => `<path d="${o.d}" fill="none" stroke="${stroke}" stroke-width="${w}" stroke-linejoin="round"/>`;
+    det.innerHTML = `<g opacity=".7">${o.strap ? dl(GOLD, o.strap) + dl("#0B0A08", o.strap - 2 * o.width) : dl(GOLD, o.width)}</g>`;
+    fig.appendChild(det);
+    const cap = document.createElement("figcaption");
+    const b = document.createElement("b");
+    b.textContent = o.name;
+    cap.append(b, o.note);
+    fig.appendChild(cap);
+    grid.appendChild(fig);
+  });
+</script>
+</body>
+</html>

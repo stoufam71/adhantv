@@ -1,0 +1,12 @@
+*.iml
+.gradle
+local.properties
+.idea/
+.DS_Store
+build/
+captures/
+.kotlin/
+# device snapshots are per-household, never committed
+backups/
+# unlicensed adhan voice, fetched by tools/fetch-adhan.sh
+app/src/main/res/raw/adhan_makkah.mp3

@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adzan TV palettes</title>
+<style>
+  :root { --page: #1b1b1b; --ink: #e8e8e8; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 24px 16px 48px; background: var(--page); color: var(--ink); font-family: system-ui, sans-serif; }
+  h1 { font-size: 20px; font-weight: 600; margin: 0 0 4px; }
+  p.lede { margin: 0 0 24px; color: #aaa; font-size: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 620px), 1fr)); gap: 28px; }
+  figure { margin: 0; }
+  figcaption { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin: 10px 0 0; font-size: 14px; }
+  figcaption b { font-size: 16px; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+  .chip { display: flex; align-items: center; gap: 6px; font: 12px ui-monospace, monospace; color: #bbb; }
+  .chip i { width: 14px; height: 14px; border-radius: 3px; border: 1px solid #444; display: inline-block; }
+  /* each TV is a 1920×1080 stage scaled into its box */
+  .tv { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 6px; container-type: inline-size; }
+  .stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; transform-origin: 0 0; transform: scale(calc(100cqw / 1920px)); background: var(--ground); font-family: "Noto Serif", Georgia, serif; }
+  @supports not (transform: scale(calc(100cqw / 1920px))) { .stage { transform: scale(.32); } }
+  .stage svg { position: absolute; overflow: visible; }
+  .arch-col { position: absolute; left: 136px; top: 250px; width: 520px; text-align: center; }
+  .verse { color: var(--accent); font-size: 34px; line-height: 1.5; direction: rtl; font-family: "Amiri", "Noto Naskh Arabic", serif; }
+  .ref { color: var(--dim); font: 20px system-ui, sans-serif; margin-top: 8px; }
+  .rule { width: 120px; height: 2px; background: var(--line); opacity: .6; margin: 28px auto; }
+  .lbl { color: var(--dim); font: 22px system-ui, sans-serif; letter-spacing: .12em; }
+  .name { color: var(--accent); font-size: 88px; font-weight: 700; line-height: 1.1; }
+  .count { color: var(--text); font-size: 110px; line-height: 1; font-variant-numeric: tabular-nums; }
+  .sub { color: var(--dim); font: 26px system-ui, sans-serif; margin-top: 12px; }
+  .court { position: absolute; left: 760px; top: 250px; width: 1064px; }
+  .clock { color: var(--text); font-size: 168px; line-height: 1; font-variant-numeric: tabular-nums; }
+  .hd { color: var(--text); font: 30px system-ui, sans-serif; margin-top: 16px; }
+  .gd { color: var(--dim); font: 26px system-ui, sans-serif; margin-top: 8px; }
+  .cells { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin-top: 80px; font-family: system-ui, sans-serif; }
+  .cell { height: 156px; border-radius: 14px; background: var(--surface); padding: 16px 20px; display: flex; flex-direction: column; color: var(--text); }
+  .cell .t { flex: 1; font-size: 18px; letter-spacing: .12em; color: var(--accent); }
+  .cell .n { font-size: 26px; }
+  .cell .v { font-size: 38px; font-variant-numeric: tabular-nums; }
+  .cell.next { background: none; box-shadow: inset 0 0 0 3px var(--accent); color: var(--accent); font-weight: 600; }
+</style>
+</head>
+<body>
+<h1>Adzan TV: dark-room palettes</h1>
+<p class="lede">The screensaver at 22:46 in each palette. Kiswah is the one selected. All text is dimmed warm ivory; none of them uses pure white.</p>
+<div class="grid" id="grid"></div>
+
+<template id="screen">
+  <div class="tv"><div class="stage">
+    <svg width="1920" height="1080" aria-hidden="true"><defs><pattern id="P" width="96" height="96" patternUnits="userSpaceOnUse"><g fill="none" stroke="var(--pattern)" stroke-width="1.5"><rect x="28" y="28" width="40" height="40"/><rect x="28" y="28" width="40" height="40" transform="rotate(45 48 48)"/><path d="M0 48h20M76 48h20M48 0v20M48 76v20"/></g></pattern></defs><rect width="1920" height="1080" fill="url(#P)"/></svg>
+    <svg style="left:96px;top:120px" width="600" height="1000" viewBox="0 0 600 900" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 900 L0 330 C0 170 140 70 300 0 C460 70 600 170 600 330 L600 900 Z" fill="var(--surface)" stroke="var(--line)" stroke-width="3" vector-effect="non-scaling-stroke"/>
+      <path d="M18 900 L18 334 C18 184 150 92 300 22 C450 92 582 184 582 334 L582 900" fill="none" stroke="var(--line)" stroke-opacity=".55" stroke-width="1.5" vector-effect="non-scaling-stroke"/>
+    </svg>
+    <div class="arch-col">
+      <div class="verse">إِنَّ الصَّلَاةَ كَانَتْ<br>عَلَى الْمُؤْمِنِينَ<br>كِتَابًا مَّوْقُوتًا</div>
+      <div class="ref">QS An-Nisa: 103</div>
+      <div class="rule"></div>
+      <div class="lbl">SHALAT BERIKUTNYA</div>
+      <div class="name">Subuh</div>
+      <div class="count">5:22:22</div>
+      <div class="sub">Adzan pukul 04:09</div>
+    </div>
+    <div class="court">
+      <div class="clock">22:46</div>
+      <div class="hd">19 Jumadilawal 1448 H · KOTA JAKARTA</div>
+      <div class="gd">Sabtu, 31 Oktober 2026</div>
+      <div class="cells">
+        <div class="cell next"><span class="t">BERIKUT</span><span class="n">Subuh</span><span class="v">04:09</span></div>
+        <div class="cell"><span class="t"></span><span class="n">Terbit</span><span class="v">05:23</span></div>
+        <div class="cell"><span class="t"></span><span class="n">Dzuhur</span><span class="v">11:40</span></div>
+        <div class="cell"><span class="t"></span><span class="n">Ashar</span><span class="v">14:55</span></div>
+        <div class="cell"><span class="t"></span><span class="n">Maghrib</span><span class="v">17:49</span></div>
+        <div class="cell"><span class="t"></span><span class="n">Isya</span><span class="v">19:00</span></div>
+      </div>
+    </div>
+  </div></div>
+</template>
+
+<script>
+  const palettes = [
+    { name: "Kiswah", note: "selected", ground: "#0B0A08", surface: "#17140F", line: "#B8964F", accent: "#D9B76A", text: "#D8CDB4", dim: "#8C8370", pattern: "rgba(184,150,79,.10)" },
+    { name: "Nabawi green", note: "", ground: "#071A15", surface: "#0E2A22", line: "#B8964F", accent: "#D9B76A", text: "#DCD3BC", dim: "#8FA89C", pattern: "rgba(184,150,79,.11)" },
+    { name: "Iznik teal", note: "", ground: "#061A1C", surface: "#0D2A2D", line: "#B8964F", accent: "#4FB3A9", text: "#DAD6C8", dim: "#86A3A0", pattern: "rgba(79,179,169,.10)" },
+    { name: "Dimmed lapis", note: "", ground: "#060E1F", surface: "#0D1C38", line: "#B8964F", accent: "#D9B76A", text: "#D8CFBA", dim: "#8593AD", pattern: "rgba(184,150,79,.10)" },
+  ];
+  const grid = document.getElementById("grid");
+  const tpl = document.getElementById("screen");
+  palettes.forEach((p, i) => {
+    const fig = document.createElement("figure");
+    const tv = tpl.content.cloneNode(true);
+    const stage = tv.querySelector(".stage");
+    for (const k of ["ground", "surface", "line", "accent", "text", "dim", "pattern"]) stage.style.setProperty("--" + k, p[k]);
+    // each SVG pattern needs its own id
+    tv.querySelector("pattern").id = "P" + i;
+    tv.querySelector("rect[fill]").setAttribute("fill", `url(#P${i})`);
+    fig.appendChild(tv);
+    const cap = document.createElement("figcaption");
+    cap.innerHTML = `<b></b><span></span>`;
+    cap.querySelector("b").textContent = p.name;
+    cap.querySelector("span").textContent = p.note;
+    fig.appendChild(cap);
+    const chips = document.createElement("div");
+    chips.className = "chips";
+    for (const k of ["ground", "surface", "line", "accent", "text", "dim"]) {
+      const c = document.createElement("span");
+      c.className = "chip";
+      c.innerHTML = "<i></i>";
+      c.querySelector("i").style.background = p[k];
+      c.append(`${k} ${p[k]}`);
+      chips.appendChild(c);
+    }
+    fig.appendChild(chips);
+    grid.appendChild(fig);
+  });
+</script>
+</body>
+</html>
