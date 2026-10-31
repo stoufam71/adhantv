@@ -32,13 +32,22 @@ class AdhanScheduler(private val setAlarm: (atMillis: Long, prayer: Prayer) -> U
       val intent = Intent(ctx, AlarmReceiver::class.java)
         .putExtra(EXTRA_PRAYER, prayer.name)
         .putExtra(EXTRA_AT, at)
-      // one request code per slot, so a new alarm always replaces the previous one
-      val pi = PendingIntent.getBroadcast(ctx, slot, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+      val pi = pending(ctx, slot, intent, PendingIntent.FLAG_UPDATE_CURRENT)!! // never null without FLAG_NO_CREATE
       if (Build.VERSION.SDK_INT >= 31 && !am.canScheduleExactAlarms()) {
         am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, at, pi)
       } else {
         am.setAlarmClock(AlarmManager.AlarmClockInfo(at, null), pi)
       }
     }
+
+    /** Drops the pending alarm in [slot], if any. */
+    fun cancel(ctx: Context, slot: Int = 0) {
+      pending(ctx, slot, Intent(ctx, AlarmReceiver::class.java), PendingIntent.FLAG_NO_CREATE)
+        ?.let { ctx.getSystemService(AlarmManager::class.java).cancel(it); it.cancel() }
+    }
+
+    // one request code per slot, so a new alarm always replaces the previous one; extras do not affect matching
+    private fun pending(ctx: Context, slot: Int, intent: Intent, flags: Int): PendingIntent? =
+      PendingIntent.getBroadcast(ctx, slot, intent, flags or PendingIntent.FLAG_IMMUTABLE)
   }
 }

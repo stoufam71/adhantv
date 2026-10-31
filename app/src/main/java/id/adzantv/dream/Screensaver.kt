@@ -55,7 +55,7 @@ import java.util.Date
 import java.util.Locale
 import kotlin.math.sin
 
-data class ScreensaverData(val city: String?, val today: PrayerTimes, val tomorrow: PrayerTimes)
+data class ScreensaverData(val city: String?, val today: PrayerTimes, val tomorrow: PrayerTimes, val adhanOn: Boolean = true)
 
 private val ID = Locale.forLanguageTag("id-ID")
 private val TIME = DateTimeFormatter.ofPattern("HH:mm")
@@ -126,7 +126,7 @@ private fun Next(data: ScreensaverData, now: ZonedDateTime) {
     lineHeight = 1.em,
     style = NUM,
   )
-  Text("Adzan pukul ${next.at.format(TIME)}", color = Mist, fontSize = 26.sp, modifier = Modifier.padding(top = 12.dp), style = NUM)
+  Text(if (data.adhanOn) "Adzan pukul ${next.at.format(TIME)}" else "Adzan dimatikan", color = Mist, fontSize = 26.sp, modifier = Modifier.padding(top = 12.dp), style = NUM)
 }
 
 @Composable

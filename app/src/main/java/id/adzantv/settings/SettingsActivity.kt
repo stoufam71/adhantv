@@ -105,6 +105,7 @@ class SettingsActivity : ComponentActivity() {
   private val focusSearch = mutableStateOf(false)
   private val palette = mutableStateOf(Palettes[0])
   private val dreamOn = mutableStateOf(false)
+  private val adhanOn = mutableStateOf(true)
   private val dream by lazy { ComponentName(this, AdzanDreamService::class.java).flattenToShortString() }
 
   // worker-thread copy: cities.value is only updated later on the UI thread
@@ -115,6 +116,7 @@ class SettingsActivity : ComponentActivity() {
     super.onCreate(savedInstanceState)
     city.value = prefs.cityName
     palette.value = paletteOf(prefs.palette)
+    adhanOn.value = prefs.adhanOn
     setContent {
       CompositionLocalProvider(LocalPalette provides palette.value) {
         MaterialTheme(colorScheme = TvColors) {
@@ -134,6 +136,8 @@ class SettingsActivity : ComponentActivity() {
               onPalette = ::choosePalette,
               dreamOn = dreamOn.value,
               onDream = ::toggleDream,
+              adhanOn = adhanOn.value,
+              onAdhan = ::toggleAdhan,
             )
           }
         }
@@ -146,6 +150,14 @@ class SettingsActivity : ComponentActivity() {
     super.onResume()
     // the screensaver can also be changed in the TV's own settings
     dreamOn.value = isOurDream()
+  }
+
+  /** Off cancels the pending alarm; on arms the next prayer again. Test adzan works either way. */
+  private fun toggleAdhan() {
+    prefs.adhanOn = !prefs.adhanOn
+    adhanOn.value = prefs.adhanOn
+    message.value = if (adhanOn.value) "Adzan aktif kembali" else "Adzan dimatikan; jadwal tetap tampil"
+    work { Adzan.reschedule(this) }
   }
 
   private fun choosePalette(p: Palette) {
@@ -257,6 +269,8 @@ private fun Screen(
   onPalette: (Palette) -> Unit,
   dreamOn: Boolean,
   onDream: () -> Unit,
+  adhanOn: Boolean,
+  onAdhan: () -> Unit,
 ) {
   var choosing by remember { mutableStateOf(false) }
   var theming by remember { mutableStateOf(false) }
@@ -287,6 +301,11 @@ private fun Screen(
           modifier = Modifier.focusRequester(first),
         ) { if (!cities.isNullOrEmpty()) choosing = true }
         SettingRow("Deteksi ulang lokasi", "Mencari kota dari alamat internet", value = if (busy) "Memproses…" else null) { onRedetect() }
+        SettingRow(
+          "Adzan otomatis",
+          if (adhanOn) "Berbunyi di setiap waktu shalat wajib" else "Tidak berbunyi; jadwal tetap tampil",
+          value = if (adhanOn) "Aktif" else "Mati",
+        ) { onAdhan() }
         SettingRow(
           "Screensaver Adzan TV",
           if (dreamOn) "Tampil saat TV diam; OK untuk memakai screensaver bawaan" else "Memakai screensaver bawaan TV; adzan tetap berbunyi",

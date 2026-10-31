@@ -19,8 +19,12 @@ object Adzan {
 
   fun day(ctx: Context, date: LocalDate): PrayerTimes = repository(ctx).forDate(Prefs(ctx).cityId, date)
 
-  /** Replaces the single pending adhan alarm with one for the next prayer. */
+  /** Replaces the single pending adhan alarm with one for the next prayer, or clears it when adhan is off. */
   fun reschedule(ctx: Context) {
+    if (!Prefs(ctx).adhanOn) {
+      AdhanScheduler.cancel(ctx)
+      return
+    }
     val now = ZonedDateTime.now()
     val today = now.toLocalDate()
     AdhanScheduler.forDevice(ctx).scheduleNext(day(ctx, today), day(ctx, today.plusDays(1)), now)

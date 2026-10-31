@@ -81,6 +81,7 @@ class AdzanDreamService : DreamService(), LifecycleOwner, SavedStateRegistryOwne
           city = prefs.cityName,
           today = Adzan.day(this, today),
           tomorrow = Adzan.day(this, today.plusDays(1)),
+          adhanOn = prefs.adhanOn,
         )
         main.post { data.value = d }
         // a long-running screensaver must not outlive tomorrow's data
