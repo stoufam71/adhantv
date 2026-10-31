@@ -63,7 +63,7 @@ private val TIME = DateTimeFormatter.ofPattern("HH:mm")
 private val NUM = TextStyle(fontFeatureSettings = "tnum") // digits keep their width, so the clock does not jitter
 
 /** An-Nisa 4:103, the verse Afnon sets in its arch: prayer is prescribed at fixed times. */
-private const val VERSE = "إِنَّ الصَّلَاةَ كَانَتْ\nعَلَى الْمُؤْمِنِينَ\nكِتَابًا مَّوْقُوتًا"
+private const val VERSE = "إِنَّ الصَّلَاةَ كَانَتْ عَلَى الْمُؤْمِنِينَ\nكِتَابًا مَّوْقُوتًا"
 
 /**
  * Afnon's home composition on a 1920×1080 stage: the mihrab on the left holds the verse and the
@@ -97,7 +97,7 @@ fun Screensaver(data: ScreensaverData?) {
     Box(Modifier.offset(80.dp, 974.dp).size(712.dp, 2.dp).background(ArchInner))
     // content centred in the arch body, nudged below the narrow crown
     Box(Modifier.offset(96.dp, 90.dp).size(680.dp, 870.dp).padding(top = 70.dp), contentAlignment = Alignment.Center) {
-    Column(Modifier.width(560.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(Modifier.width(620.dp), horizontalAlignment = Alignment.CenterHorizontally) {
       Text(VERSE, color = Gold, fontSize = 38.sp, lineHeight = 1.7.em, fontFamily = Arabic, textAlign = TextAlign.Center)
       Text("QS An-Nisa: 103", color = Mist, fontSize = 20.sp, modifier = Modifier.padding(top = 8.dp))
       Box(Modifier.padding(vertical = 28.dp).width(120.dp).height(2.dp).background(GoldLine))
