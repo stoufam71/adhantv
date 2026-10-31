@@ -15,7 +15,8 @@ if dev shell pm list packages | tr -d '\r' | grep -qx "package:$PKG"; then
   dev uninstall "$PKG" # also clears its appops grants
 fi
 
-while read -r ns key value; do
+# fd 3: adb shell reads stdin and would otherwise swallow the rest of the file
+while read -r -u 3 ns key value; do
   check_value "$value"
   if [[ "$value" == "null" ]]; then
     echo "settings delete $ns $key"
@@ -25,7 +26,7 @@ while read -r ns key value; do
     dev shell settings put "$ns" "$key" "$value"
   fi
   [[ "$(get_setting "$ns" "$key")" == "$value" ]] || die "$ns $key is not back to '$value'"
-done < "$SNAP/settings.txt"
+done 3< "$SNAP/settings.txt"
 
 if diff <(dev shell pm list packages | tr -d '\r' | sort) "$SNAP/packages.txt" >/dev/null; then
   echo "Package list matches the snapshot."
