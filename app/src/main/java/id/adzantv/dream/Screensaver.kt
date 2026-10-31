@@ -88,9 +88,9 @@ private fun Times(data: ScreensaverData, now: ZonedDateTime) {
   // the stored day can go stale past midnight; tomorrow then becomes today
   val today = if (data.today.date < now.toLocalDate()) data.tomorrow else data.today
   val next = PrayerClock.next(data.today, data.tomorrow, now)
-  val left = Duration.between(now, next.at)
+  val left = Duration.between(now, next.at).seconds // toMinutesPart() needs API 31; minSdk is 28
   Text(
-    "${next.prayer.label} dalam %d:%02d:%02d".format(left.toHours(), left.toMinutesPart(), left.toSecondsPart()),
+    "${next.prayer.label} dalam %d:%02d:%02d".format(left / 3600, left % 3600 / 60, left % 60),
     color = Gold,
     fontSize = 30.sp,
   )

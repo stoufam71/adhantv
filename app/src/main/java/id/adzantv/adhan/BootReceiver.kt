@@ -10,6 +10,7 @@ import kotlin.concurrent.thread
 /** Boot, clock/zone changes and app updates all drop or invalidate the pending alarm. */
 class BootReceiver : BroadcastReceiver() {
   override fun onReceive(ctx: Context, intent: Intent) {
+    if (intent.action !in ACTIONS) return
     val pending = goAsync()
     thread {
       try {
@@ -20,5 +21,14 @@ class BootReceiver : BroadcastReceiver() {
         pending.finish()
       }
     }
+  }
+
+  private companion object {
+    val ACTIONS = setOf(
+      Intent.ACTION_BOOT_COMPLETED,
+      Intent.ACTION_TIME_CHANGED,
+      Intent.ACTION_TIMEZONE_CHANGED,
+      Intent.ACTION_MY_PACKAGE_REPLACED,
+    )
   }
 }
