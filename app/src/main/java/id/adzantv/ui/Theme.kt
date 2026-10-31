@@ -7,7 +7,9 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import id.adzantv.R
 
 /**
  * A dark-room palette: a very dark ground and warm, dimmed text, never pure white.
@@ -62,6 +64,9 @@ val LineSoft: Color @Composable @ReadOnlyComposable get() = LocalPalette.current
 
 /** Afnon sets its display type in Marcellus; the system serif is the closest weight without shipping a font. */
 val Display = FontFamily.Serif
+
+/** Amiri, a classical Naskh with full vowel marks, for every Arabic line (OFL: licenses/Amiri-OFL.txt). */
+val Arabic = FontFamily(Font(R.font.amiri))
 
 /** Material3 defaults are a light purple theme, which makes the city search field unreadable on a dark ground. */
 val TvColors: ColorScheme

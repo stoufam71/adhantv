@@ -15,6 +15,7 @@ A Google TV screensaver that shows today's prayer times and plays the adhan at e
    ```sh
    adb pair <tv-ip>:<pairing-port>        # enter the 6-digit code shown on the TV
    adb connect <tv-ip>:<debug-port>       # the port shown on the Wireless debugging screen
+   tools/fetch-adhan.sh                   # the Makkah adhan; skip it to keep the CC0 one
    ./gradlew assembleDebug
    tools/backup.sh   <tv-ip>:<debug-port> # ALWAYS first: snapshots the settings the install changes
    tools/install.sh  <tv-ip>:<debug-port>
@@ -34,6 +35,7 @@ This uninstalls the app, which also removes its overlay permission, and puts eve
 ## Develop
 
 ```sh
+tools/fetch-adhan.sh          # optional: the Makkah adhan (unlicensed, git-ignored)
 ./gradlew testDebugUnitTest   # schedule, city matching, offline calc, alarms
 ./gradlew assembleDebug
 ```
@@ -42,7 +44,10 @@ In the app, *Tes adzan (1 menit)* fires the adhan one minute later, so you can c
 
 ## Credits
 
-- Adhan recording: [*Beautiful adhan.ogg*](https://commons.wikimedia.org/wiki/File:Beautiful_adhan.ogg) by Adam-synagda, Wikimedia Commons, **CC0**.
+- Adhan recording: "Athan Makkah" from [abodehq/Athan-MP3](https://github.com/abodehq/Athan-MP3), the Makkah voice in Afnon.
+  That repo states no licence, so `tools/fetch-adhan.sh` downloads it and it is git-ignored, as Afnon does; run the script before building.
+  Without it the app plays the bundled [*Beautiful adhan.ogg*](https://commons.wikimedia.org/wiki/File:Beautiful_adhan.ogg) by Adam-synagda, Wikimedia Commons, **CC0**.
+- Arabic type: [Amiri](https://github.com/aliftype/amiri) by Khaled Hosny, SIL Open Font License 1.1 (`licenses/Amiri-OFL.txt`).
 - Prayer times: Kemenag RI (Bimas Islam) via [myQuran API](https://api.myquran.com). Offline calculation: [adhan-java](https://github.com/batoulapps/adhan-java).
 - IP location: [ipwho.is](https://ipwho.is). The TV's public IP is sent there on first run and on *Deteksi ulang*.
 - Design inspired by [Afnon](https://github.com/egyjs/afnon-android-tv-launcher).

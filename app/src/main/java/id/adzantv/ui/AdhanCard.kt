@@ -87,10 +87,10 @@ fun AdhanCard(prayerLabel: String, at: LocalTime, city: String?, progress: () ->
       Box(Modifier.offset(510.dp, 994.dp).size(900.dp, 2.dp).background(ArchInner))
       Box(Modifier.offset(540.dp, 60.dp).size(840.dp, 920.dp).padding(top = 60.dp), contentAlignment = Alignment.Center) {
       Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text("حَيَّ عَلَى الصَّلَاةِ", color = Gold, fontSize = 54.sp, lineHeight = 1.4.em, fontFamily = Display)
+        Text("حَيَّ عَلَى الصَّلَاةِ", color = Gold, fontSize = 60.sp, lineHeight = 1.6.em, fontFamily = Arabic)
         Text("WAKTUNYA SHALAT", color = Mist, fontSize = 22.sp, letterSpacing = 0.12.em, modifier = Modifier.padding(top = 24.dp))
         Text(prayerLabel, color = Ivory, fontSize = 128.sp, lineHeight = 1.1.em, fontFamily = Display, fontWeight = FontWeight.Bold)
-        ARABIC[prayerLabel]?.let { Text(it, color = Gold, fontSize = 40.sp, lineHeight = 1.4.em, fontFamily = Display) }
+        ARABIC[prayerLabel]?.let { Text(it, color = Gold, fontSize = 44.sp, lineHeight = 1.6.em, fontFamily = Arabic) }
         Text(
           at.format(DateTimeFormatter.ofPattern("HH:mm")) + (city?.let { "  ·  $it" } ?: ""),
           color = Mist,

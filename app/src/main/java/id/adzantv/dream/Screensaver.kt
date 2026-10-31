@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import id.adzantv.time.Prayer
 import id.adzantv.time.PrayerClock
 import id.adzantv.time.PrayerTimes
+import id.adzantv.ui.Arabic
 import id.adzantv.ui.ArchInner
 import id.adzantv.ui.Display
 import id.adzantv.ui.Gold
@@ -97,7 +98,7 @@ fun Screensaver(data: ScreensaverData?) {
     // content centred in the arch body, nudged below the narrow crown
     Box(Modifier.offset(96.dp, 90.dp).size(680.dp, 870.dp).padding(top = 70.dp), contentAlignment = Alignment.Center) {
     Column(Modifier.width(560.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-      Text(VERSE, color = Gold, fontSize = 34.sp, lineHeight = 1.5.em, fontFamily = Display, textAlign = TextAlign.Center)
+      Text(VERSE, color = Gold, fontSize = 38.sp, lineHeight = 1.7.em, fontFamily = Arabic, textAlign = TextAlign.Center)
       Text("QS An-Nisa: 103", color = Mist, fontSize = 20.sp, modifier = Modifier.padding(top = 8.dp))
       Box(Modifier.padding(vertical = 28.dp).width(120.dp).height(2.dp).background(GoldLine))
       when {
