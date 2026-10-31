@@ -1,6 +1,7 @@
 package id.adzantv.adhan
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,7 +11,7 @@ import id.adzantv.ui.AdhanCard
 import java.time.Instant
 import java.time.ZoneId
 
-/** Full-screen call to prayer over whatever is playing; Back stops it. */
+/** Full-screen call to prayer over whatever is playing; Back or the remote's OK stops it. */
 class AdhanActivity : ComponentActivity() {
   private val player by lazy { AdhanPlayer(this) { finish() } }
 
@@ -23,6 +24,15 @@ class AdhanActivity : ComponentActivity() {
       .atZone(ZoneId.systemDefault()).toLocalTime()
     setContent { AdhanCard(prayer?.label ?: "Adzan", at, Prefs(this).cityName) }
     player.start()
+  }
+
+  /** The remote's centre button is the reflex stop press; make it work alongside Back. */
+  override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+    if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
+      finish()
+      return true
+    }
+    return super.onKeyDown(keyCode, event)
   }
 
   override fun onStop() {
