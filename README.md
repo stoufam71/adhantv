@@ -7,6 +7,20 @@ A Google TV screensaver that shows today's prayer times and plays the adhan at e
 - **Location:** the city is guessed from your internet IP on first run. You can change it in the app (search or *Deteksi ulang*), and a city you pick is never overwritten.
 - **Times:** the [myQuran API](https://api.myquran.com) (Kemenag data), cached per month. Without internet and without a cached schedule, the app calculates times on the TV with Kemenag parameters, marked *perkiraan*.
 
+## Screens
+
+| Screensaver | Adhan |
+| --- | --- |
+| ![Screensaver: clock, dates, today's times and countdown](docs/screenshots/screensaver.png) | ![Adhan card over the TV](docs/screenshots/adhan.png) |
+| **Reminder card** | **Settings** |
+| ![Reminder card a few minutes before a prayer](docs/screenshots/reminder-card.png) | ![Settings](docs/screenshots/settings.png) |
+| **City** | **Reminder** |
+| ![City chooser](docs/screenshots/city.png) | ![Reminder settings](docs/screenshots/reminder.png) |
+| **Theme colours** | |
+| ![Theme colours](docs/screenshots/theme.png) | |
+
+Images are exported from the design file `docs/design/screens.figcraft`.
+
 ## Install on the TV (wireless debugging)
 
 1. On the TV, go to Settings › System › About, then press OK on *Android TV OS build* 7 times. Then go to Settings › System › Developer options › **Wireless debugging** › on, and choose *Pair device with pairing code*.
