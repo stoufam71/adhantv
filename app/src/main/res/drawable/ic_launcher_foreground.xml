@@ -1,24 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Mosque dome with crescent finial and adhan sound waves, Kiswah palette.
-     Source: docs/design/ic_launcher.vectorcraft (artboard 1). -->
+<!-- Crescent with adhan sound bars, teal palette.
+     Source: docs/design/ic_launcher.vectorcraft (artboard 8). -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:aapt="http://schemas.android.com/aapt"
     android:width="108dp" android:height="108dp"
     android:viewportWidth="108" android:viewportHeight="108">
-    <path android:pathData="M40,72 c-4,-10 -2,-18 6,-24 c4,-3 7,-6 8,-11 c1,5 4,8 8,11 c8,6 10,14 6,24 z">
-        <aapt:attr name="android:fillColor">
-            <gradient android:type="linear" android:startX="54" android:startY="37"
-                android:endX="54" android:endY="78">
-                <item android:offset="0" android:color="#F3DC9E" />
-                <item android:offset="0.5" android:color="#D9B76A" />
-                <item android:offset="1" android:color="#A98541" />
-            </gradient>
-        </aapt:attr>
-    </path>
-    <path android:fillColor="#B8964F" android:pathData="M38.2,73.5 h31.6 a1.2,1.2 0 0 1 1.2,1.2 v2.1 a1.2,1.2 0 0 1 -1.2,1.2 h-31.6 a1.2,1.2 0 0 1 -1.2,-1.2 v-2.1 a1.2,1.2 0 0 1 1.2,-1.2 z" />
-    <path android:fillColor="#15120C" android:pathData="M50,72 v-7.5 c0,-3 2,-4.7 4,-6.5 c2,1.8 4,3.5 4,6.5 v7.5 z" />
-    <path android:fillColor="#F3DC9E" android:pathData="M53.4,34 h1.2 v3.6 h-1.2 z" />
-    <path android:fillColor="#F3DC9E" android:pathData="M54.575,27.646 a3.6,3.6 0 1,0 2.518,5.396 a3,3 0 1,1 -2.518,-5.396 z" />
-    <path android:strokeColor="#D9B76A" android:strokeWidth="2.6" android:strokeLineCap="round" android:pathData="M75.19,46.73 a24,24 0 0,1 0,22.54 M32.81,46.73 a24,24 0 0,0 0,22.54" />
-    <path android:strokeColor="#D9B76A" android:strokeAlpha="0.55" android:strokeWidth="2.6" android:strokeLineCap="round" android:pathData="M80.95,46 a29.5,29.5 0 0,1 0,24 M27.05,46 a29.5,29.5 0 0,0 0,24" />
+    <path android:fillColor="#FFF7E0" android:pathData="M62.695,29.016 C49.164,25.119 34.991,32.702 30.723,46.12 C26.455,59.538 33.644,73.915 46.939,78.551 C60.235,83.187 74.805,76.397 79.805,63.234 C73.708,70.746 63.268,73.121 54.522,68.985 C45.775,64.849 40.987,55.272 42.925,45.793 C44.863,36.314 53.027,29.387 62.695,29.016 Z" />
+    <path android:fillColor="#F5C95F" android:pathData="M57,48.2 a2.2,2.2 0 0 1 4.4,0 v7.6 a2.2,2.2 0 0 1 -4.4,0 z M64.4,43.2 a2.2,2.2 0 0 1 4.4,0 v17.6 a2.2,2.2 0 0 1 -4.4,0 z M71.8,47.2 a2.2,2.2 0 0 1 4.4,0 v9.6 a2.2,2.2 0 0 1 -4.4,0 z" />
 </vector>
