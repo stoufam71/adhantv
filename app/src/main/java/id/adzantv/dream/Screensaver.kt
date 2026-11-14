@@ -197,7 +197,7 @@ private fun Cells(data: ScreensaverData, now: ZonedDateTime) {
 }
 
 /** Tabular (civil) Hijri date; may differ by a day from Indonesian moon sighting. */
-private fun hijri(): String {
+internal fun hijri(): String {
   // the calendar keyword makes ICU use Islamic month names; a plain id_ID locale prints Gregorian ones
   val fmt = SimpleDateFormat("d MMMM y 'H'", ULocale("id_ID@calendar=islamic-civil"))
   return fmt.format(Date())

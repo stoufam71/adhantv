@@ -10,6 +10,9 @@ import android.util.Log
 import id.adzantv.Adzan
 import id.adzantv.dream.AdzanDreamService
 import kotlin.concurrent.thread
+import id.adzantv.data.Prefs
+import id.adzantv.time.Prayer
+import id.adzantv.time.ReminderClock
 
 class AlarmReceiver : BroadcastReceiver() {
   override fun onReceive(ctx: Context, intent: Intent) {
@@ -21,7 +24,17 @@ class AlarmReceiver : BroadcastReceiver() {
         // a TV in standby stays off (screensaver still counts as interactive)
         val screenOn = ctx.getSystemService(PowerManager::class.java).isInteractive
         Log.i("AdzanTV", "alarm prayer=$prayer lateMs=${System.currentTimeMillis() - at} screenOn=$screenOn")
-        if (prayer != null && screenOn && AdhanScheduler.shouldPlay(at, System.currentTimeMillis())) {
+        val reminderFor = intent.getLongExtra(AdhanScheduler.EXTRA_REMINDER_FOR, 0)
+        if (reminderFor > 0) {
+          val p = prayer?.let { runCatching { Prayer.valueOf(it) }.getOrNull() }
+          if (p != null && screenOn && ReminderClock.shouldShow(at, reminderFor, System.currentTimeMillis())) {
+            val minutes = Prefs(ctx).reminderMinutes
+            Handler(Looper.getMainLooper()).post {
+              // our own screensaver already counts down to the prayer, and a window above a dream is device-dependent
+              if (AdzanDreamService.current == null) ReminderOverlay.show(ctx, p, reminderFor, minutes)
+            }
+          }
+        } else if (prayer != null && screenOn && AdhanScheduler.shouldPlay(at, System.currentTimeMillis())) {
           // card first so it is on time; a failed start must not break the alarm chain below
           Handler(Looper.getMainLooper()).post {
             val dream = AdzanDreamService.current

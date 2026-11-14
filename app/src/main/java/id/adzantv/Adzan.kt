@@ -6,6 +6,7 @@ import id.adzantv.data.FallbackCalculator
 import id.adzantv.data.MyQuranClient
 import id.adzantv.data.Prefs
 import id.adzantv.data.ScheduleRepository
+import id.adzantv.time.AlarmPlan
 import id.adzantv.time.PrayerTimes
 import java.time.LocalDate
 import java.time.ZonedDateTime
@@ -19,14 +20,34 @@ object Adzan {
 
   fun day(ctx: Context, date: LocalDate): PrayerTimes = repository(ctx).forDate(Prefs(ctx).cityId, date)
 
-  /** Replaces the single pending adhan alarm with one for the next prayer, or clears it when adhan is off. */
+  /**
+   * Replaces the pending adhan alarm with one for the next prayer, and the pending reminder with the next
+   * reminder; each chain is cleared when its own switch is off.
+   */
+  @Synchronized // settings key presses each start a reschedule; the last one in must win
   fun reschedule(ctx: Context) {
-    if (!Prefs(ctx).adhanOn) {
-      AdhanScheduler.cancel(ctx)
-      return
-    }
+    val prefs = Prefs(ctx)
     val now = ZonedDateTime.now()
-    val today = now.toLocalDate()
-    AdhanScheduler.forDevice(ctx).scheduleNext(day(ctx, today), day(ctx, today.plusDays(1)), now)
+    val plan = AlarmPlan.of(prefs.adhanOn, prefs.reminderOn, now, prefs.reminderMinutes, prefs.reminderPrayers) {
+      day(ctx, now.toLocalDate()) to day(ctx, now.toLocalDate().plusDays(1))
+    }
+    val adhan = plan.adhan
+    if (adhan == null) {
+      AdhanScheduler.cancel(ctx, AdhanScheduler.ADHAN_SLOT)
+    } else {
+      AdhanScheduler.set(ctx, adhan.at.toInstant().toEpochMilli(), adhan.prayer, AdhanScheduler.ADHAN_SLOT)
+    }
+    val reminder = plan.reminder
+    if (reminder == null) {
+      AdhanScheduler.cancel(ctx, AdhanScheduler.REMINDER_SLOT)
+    } else {
+      AdhanScheduler.set(
+        ctx,
+        reminder.remindAt.toInstant().toEpochMilli(),
+        reminder.prayer,
+        AdhanScheduler.REMINDER_SLOT,
+        reminderFor = reminder.prayerAt.toInstant().toEpochMilli(),
+      )
+    }
   }
 }
