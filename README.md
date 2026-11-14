@@ -4,6 +4,7 @@ A Google TV screensaver that shows today's prayer times and plays the adhan at e
 
 - **Screensaver:** the clock, Gregorian and Hijri dates, Subuh–Isya and a countdown to the next prayer.
 - **Adhan:** at each of the five prayers, a full-screen card appears over whatever is playing and the adhan plays. Press Back to stop it.
+- **Prayer reminder:** 1–10 minutes (default 5) before the prayers you choose (default all five), a silent card shows at the top right for 10 seconds, over whatever is playing. It runs separately from the adhan, so it works with *Adzan otomatis* off.
 - **Location:** the city is guessed from your internet IP on first run. You can change it in the app (search or *Deteksi ulang*), and a city you pick is never overwritten.
 - **Times:** the [myQuran API](https://api.myquran.com) (Kemenag data), cached per month. Without internet and without a cached schedule, the app calculates times on the TV with Kemenag parameters, marked *perkiraan*.
 
@@ -18,8 +19,6 @@ A Google TV screensaver that shows today's prayer times and plays the adhan at e
 | ![City chooser](docs/screenshots/city.png) | ![Reminder settings](docs/screenshots/reminder.png) |
 | **Theme colours** | |
 | ![Theme colours](docs/screenshots/theme.png) | |
-
-Images are exported from the design file `docs/design/screens.figcraft`.
 
 ## Install on the TV (wireless debugging)
 
