@@ -1,5 +1,5 @@
 <!-- TV launcher banner source. Render at 640x360 (headless Chrome screenshot, or VectorCraft
-     docs/design/ic_launcher.vectorcraft artboard "Banner 8 (banner.svg)" at 2x) to
+     docs/design/ic_launcher.vectorcraft artboard "Banner (banner.svg)" at 2x) to
      app/src/main/res/drawable-xhdpi/banner.png. Mark matches ic_launcher_foreground.xml. -->
 <svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 320 180">
   <defs>
