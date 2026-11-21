@@ -1,5 +1,7 @@
 # Adzan TV
 
+![Adzan TV banner: crescent with sound bars over a mosque skyline](docs/screenshots/banner.png)
+
 A Google TV screensaver that shows today's prayer times and plays the adhan at each prayer, using the official Kemenag (Bimas Islam) schedule for your kabupaten/kota. The Google TV home screen is not replaced.
 
 - **Screensaver:** the clock, Gregorian and Hijri dates, Subuh–Isya and a countdown to the next prayer.
@@ -9,6 +11,10 @@ A Google TV screensaver that shows today's prayer times and plays the adhan at e
 - **Times:** the [myQuran API](https://api.myquran.com) (Kemenag data), cached per month. Without internet and without a cached schedule, the app calculates times on the TV with Kemenag parameters, marked *perkiraan*.
 
 ## Screens
+
+**Home screen:** the Adzan TV icon in the Google TV *Your apps* row.
+
+![Adzan TV icon focused in the Google TV Your apps row](docs/screenshots/home.png)
 
 | Screensaver | Adhan |
 | --- | --- |
